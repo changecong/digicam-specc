@@ -40,7 +40,7 @@ behavior zigzag(in int in_block[64], out int out_block[64]) {
 			out_block[z] = in_block[i];
 		}
 	}
-}
+};
 
 
 // :set ts=4

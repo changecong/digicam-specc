@@ -7,7 +7,8 @@
  * :set ts=4
  *************************************************/
 
-#include <c_queue.sh>
+//#include <c_queue.sh>
+import "c_queue"
 
 behavior FileWrite(i_receiver in_port)
 {
@@ -24,10 +25,8 @@ behavior FileWrite(i_receiver in_port)
 		}
 
 		in_port.receive(bytes, num);
-		
-		fwrite(bytes, sizeof(char), ,f);
 
-		if (fwrite(bytes,sizeof(char),num,f) != num) {
+		if (fwrite(bytes,sizeof(char),sizeof(bytes),f) != sizeof(bytes)) {
 			fprintf(stderr, "Error writing output file %s\n", "test.jpg");
 			fclose(f);
 			exit(1);

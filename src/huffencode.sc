@@ -12,7 +12,8 @@
 //#include "file.h"
 
 /* -- Local data */
-#include <c_queue.sh>
+//#include <c_queue.sh>
+import "c_queue"
 
 /* huffencode 
  * @para: in_block[], out_port */

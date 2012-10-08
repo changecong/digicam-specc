@@ -52,7 +52,7 @@ behavior Preshift(inout int block[64])
 			block[i] = tval - 128;
 		}
 	}
-}
+};
 
 /* Chen forward DCT algorithm 
  * @para: in_block[], out_block[] */
@@ -120,7 +120,7 @@ behavior Chendct(in int in_block[64], out int out_block[64])
 			out_block[aptr + 7] = MSCALE((c7d16 * a3) - (c1d16 * a0));
 		}
 	}
-}
+};
 
 /* bound()
  * @para: block[] */
@@ -141,7 +141,7 @@ behavior Bound(inout int block[64])
 			block[i] = tval;
 		}
 	}
-}
+};
 
 #ifdef USE_CHANNEL
 /* -- DCT -- 
@@ -168,7 +168,7 @@ behavior dct(i_receiver in_port, i_sender out_port)
 		// send it out
 		out_port.send(out_block, 64);
 	}
-}
+};
 
 #else
 /* -- DCT --
@@ -185,7 +185,7 @@ behavior dct(in int in_block[64], out int out_block[64])
 		C.main();
 		B.main();
 	}
-}
+};
 
 #endif
 

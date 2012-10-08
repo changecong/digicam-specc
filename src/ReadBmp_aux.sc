@@ -5,9 +5,10 @@
  * Last modified: 10/08/2012 17:14:47
  * Description:
  *************************************************/
-//#include "file.h"
-//#include "digicam.h"
-//#include "ReadBmp_aux.h"
+
+#include "file.sh"
+#include "digicam.sh"
+#include "ReadBmp_aux.sh"
 
 //#include <c_handshake.sh>
 
