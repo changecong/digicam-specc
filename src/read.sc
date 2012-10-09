@@ -7,6 +7,8 @@
  * :set ts=4
  *************************************************/
 
+#include "digicam.sh"
+
 behavior readblock(in char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8], 
 					out int block[64])
 {

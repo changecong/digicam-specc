@@ -19,8 +19,10 @@ import "c_queue";
  * @para in_block[], out_block[]*/
 behavior huff(in int in_block[64], i_sender port)
 {
-	Zigzag Z(in_block, out_block);
-	Huffencode H(out_block, port);
+	int out_block[64];
+
+	zigzag Z(in_block, out_block);
+	huffencode H(out_block, port);
 
 	void main(void) {
 		// runs in sequential

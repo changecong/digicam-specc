@@ -9,8 +9,7 @@
 #include "digicam.sh"
 
 import "c_handshake";
-import "c_queue"
-
+import "c_queue";
 import "read";
 import "dct";
 import "quantize";

@@ -42,14 +42,14 @@
 
 /* preshift
  * @para: in_block[], out_block[] */
-behavior Preshift(inout int block[64])
+behavior Preshift(in int block[64], out int out_block[64])
 {
 	void main(void) {
 		int i, tval;
 
 		for (i = 0; i < 64; i++) {
 			tval = block[i];
-			block[i] = tval - 128;
+			out_block[i] = tval - 128;
 		}
 	}
 };
@@ -58,6 +58,9 @@ behavior Preshift(inout int block[64])
  * @para: in_block[], out_block[] */
 behavior Chendct(in int in_block[64], out int out_block[64])
 {
+
+	int tem_block[64];
+
 	void main(void) {
 		int i, aptr;
 		int a0,  a1,  a2,  a3;
@@ -80,21 +83,33 @@ behavior Chendct(in int in_block[64], out int out_block[64])
 			a2 = LS((v2 + v5),  2); c1 = LS((v2 - v5),  2);
 			a3 = LS((v3 + v4),  2); c0 = LS((v3 - v4),  2);
 			b0 = a0 + a3; b1 = a1 + a2; b2 = a1 - a2; b3 = a0 - a3;
-			out_block[i] = MSCALE(c1d4 * (b0 + b1));
+/*			out_block[i] = MSCALE(c1d4 * (b0 + b1));
 			out_block[i + 32] = MSCALE(c1d4 * (b0 - b1));
 			out_block[i + 16] = MSCALE((c3d8 * b2) + (c1d8 * b3));
 			out_block[i + 48] = MSCALE((c3d8 * b3) - (c1d8 * b2));
+*/
+			tem_block[i] = MSCALE(c1d4 * (b0 + b1));
+			tem_block[i + 32] = MSCALE(c1d4 * (b0 - b1));
+			tem_block[i + 16] = MSCALE((c3d8 * b2) + (c1d8 * b3));
+			tem_block[i + 48] = MSCALE((c3d8 * b3) - (c1d8 * b2));
+
 			b0 = MSCALE(c1d4 * (c2 - c1)); b1 = MSCALE(c1d4 * (c2 + c1));
 			a0 = c0 + b0; a1 = c0 - b0; a2 = c3 - b1; a3 = c3 + b1;
-			out_block[i + 8] = MSCALE((c7d16 * a0) + (c1d16 * a3));
+
+/*			out_block[i + 8] = MSCALE((c7d16 * a0) + (c1d16 * a3));
 			out_block[i + 24] = MSCALE((c3d16 * a2) - (c5d16 * a1));
 			out_block[i + 40] = MSCALE((c3d16 * a1) + (c5d16 * a2));
 			out_block[i + 56] = MSCALE((c7d16 * a3) - (c1d16 * a0));
+*/
+			tem_block[i + 8] = MSCALE((c7d16 * a0) + (c1d16 * a3));
+			tem_block[i + 24] = MSCALE((c3d16 * a2) - (c5d16 * a1));
+			tem_block[i + 40] = MSCALE((c3d16 * a1) + (c5d16 * a2));
+			tem_block[i + 56] = MSCALE((c7d16 * a3) - (c1d16 * a0));
 		}
 
 		for (i = 0; i < 8; i++) {
 			aptr = LS(i,  3);
-			v0 = out_block[aptr]; aptr++;
+/*			v0 = out_block[aptr]; aptr++;
 			v1 = out_block[aptr]; aptr++;
 			v2 = out_block[aptr]; aptr++;
 			v3 = out_block[aptr]; aptr++;
@@ -102,6 +117,17 @@ behavior Chendct(in int in_block[64], out int out_block[64])
 			v5 = out_block[aptr]; aptr++;
 			v6 = out_block[aptr]; aptr++;
 			v7 = out_block[aptr];
+*/
+
+			v0 = tem_block[aptr]; aptr++;
+			v1 = tem_block[aptr]; aptr++;
+			v2 = tem_block[aptr]; aptr++;
+			v3 = tem_block[aptr]; aptr++;
+			v4 = tem_block[aptr]; aptr++;
+			v5 = tem_block[aptr]; aptr++;
+			v6 = tem_block[aptr]; aptr++;
+			v7 = tem_block[aptr];
+			
 			c3 = RS((v0 - v7),  1); a0 = RS((v0 + v7),  1);
 			c2 = RS((v1 - v6),  1); a1 = RS((v1 + v6),  1);
 			c1 = RS((v2 - v5),  1); a2 = RS((v2 + v5),  1);
@@ -124,7 +150,8 @@ behavior Chendct(in int in_block[64], out int out_block[64])
 
 /* bound()
  * @para: block[] */
-behavior Bound(inout int block[64])
+//behavior Bound(inout int block[64])
+behavior Bound(in int block[64], out int out_block[64])
 {
 	void main(void) {
 		int i, tval;
@@ -138,7 +165,7 @@ behavior Bound(inout int block[64])
 			else if (tval > 1023) {
 				tval = 1023;
 			}
-			block[i] = tval;
+			out_block[i] = tval;
 		}
 	}
 };
@@ -177,9 +204,12 @@ behavior Bound(inout int block[64])
 
 behavior dct(in int in_block[64], out int out_block[64])
 {
-	Preshift P(in_block);
-	Chendct C(in_block, out_block);
-	Bound B(out_block);
+	int p_block[64];
+	int c_block[64];
+
+	Preshift P(in_block, p_block);
+	Chendct C(p_block, c_block);
+	Bound B(c_block, out_block);
 
 	void main(void) {
 		P.main();
@@ -188,6 +218,6 @@ behavior dct(in int in_block[64], out int out_block[64])
 	}
 };
 
-#endif
+//#endif
 
 // :set ts=4
