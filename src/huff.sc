@@ -7,10 +7,11 @@
  * :set ts=4
  *************************************************/
 
-import "zigzag"
-import "huffencode"
+import "zigzag";
+import "huffencode";
 
-#include <c_queue.sh>
+//#include <c_queue.sh>
+import "c_queue";
 
 /* huff
  * implement the sequential composition of zigzag and huffencode
@@ -26,4 +27,4 @@ behavior huff(in int in_block[64], i_sender port)
 		Z.main();
 		H.main();
 	}	
-}
+};

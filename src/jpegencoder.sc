@@ -6,14 +6,15 @@
  * Description:
  * :set ts=4
  *************************************************/
+#include "digicam.sh"
 
-#include <c_handshake.sh>
-#include <c_queue.sh>
+import "c_handshake";
+import "c_queue"
 
-import "read"
-import "dct"
-import "quantize"
-import "huff"
+import "read";
+import "dct";
+import "quantize";
+import "huff";
 
 behavior jpegencoder(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
 					i_receive in_port, i_sender out_port )

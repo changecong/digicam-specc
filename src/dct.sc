@@ -29,10 +29,10 @@
 
 /* in case we need to use channel for comunication */
 //#define USE_CHANNEL
-#ifdef USE_CHANNEL
+//#ifdef USE_CHANNEL
 // not sure if it works
-#include <c_double_handshake>
-#endif
+//import c_double_handshake;
+//#endif
 
 /* 
  * communicate through variables mapped onto their ports 
@@ -143,11 +143,11 @@ behavior Bound(inout int block[64])
 	}
 };
 
-#ifdef USE_CHANNEL
+//#ifdef USE_CHANNEL
 /* -- DCT -- 
  * @para: in_port -- receiver interface; out_port -- sender interface */
 
-behavior dct(i_receiver in_port, i_sender out_port)
+/*behavior dct(i_receiver in_port, i_sender out_port)
 {
 	int in_block[64], out_block[64];
 	
@@ -171,6 +171,7 @@ behavior dct(i_receiver in_port, i_sender out_port)
 };
 
 #else
+*/
 /* -- DCT --
  * @para: in_block[], out_block[] */
 

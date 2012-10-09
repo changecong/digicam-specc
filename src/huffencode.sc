@@ -13,7 +13,9 @@
 
 /* -- Local data */
 //#include <c_queue.sh>
-import "c_queue"
+import "c_queue";
+#include "digicam.sh"
+#include "file.sh"
 
 /* huffencode 
  * @para: in_block[], out_port */
