@@ -1,38 +1,34 @@
-// Digital Camera Example
-//
-// Lab 2
-// Group Members: 
-//   <login name>, <student id>
-//
-//
+/**************************************************
+ * Author: Zhicong Chen -- 10/09/2012 19:32:27
+ * Email: chen.zhico@husky.neu.edu
+ * Filename: digicam.sc
+ * Last modified: 10/09/2012 19:32:27
+ * Description:
+ *************************************************/
+#include "digicam.sh"
+//#define SIZE 3000
 
-
-#include <stdio.h>
 import "jpegencoder";
-import "ReadBmp_aux";
 import "monitor";
-
-import "c_handshake";
-import "c_queue";
+import "stimulus";
 
 
 behavior Main {
 
-	c_handshake HS;
-	c_queue Q
-	
-	// the simu
-	ReadBmp S(ScanBuffer, HS);
-	// the encoder
-	jpegencoder J(ScanBuffer, HS, Q);
-	// the moniter
-	FileWrite M(Q);
-		
+  unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];
+  const unsigned long Size = SIZE;
+  c_handshake HS;	// handshake interface
+  c_queue Q((Size));	// queue interface
+
+  ReadBmp R(ScanBuffer, HS);	// stimulus
+  JpegEncoder J(ScanBuffer, HS, Q);  // Jpegencoder
+  FileWrite F(Q);	// monitor
+ 
   int main(void) {
-	
-	S.main();
-	J.main();
-    M.main()
+    // runs in sequential
+    R.main();
+    J.main();
+    F.main();   
 
     return 0;
   }
