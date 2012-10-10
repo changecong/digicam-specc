@@ -8,7 +8,7 @@
 
 #include "digicam.sh"
 
-behavior readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
+behavior sub_readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
   	out int out_block[64])
 {
   int i, j;
@@ -28,5 +28,15 @@ behavior readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8
     } 
     
     blockNr++;
+  }
+};
+
+behavior readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
+    out int out_block[64])
+{
+  sub_readblock R(ScanBuffer, out_block);
+
+  void main(void) {
+    R.main();
   }
 };

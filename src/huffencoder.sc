@@ -10,7 +10,7 @@
 
 import "c_queue";
 
-behavior huffencoder(in int in_block[64], i_sender out_port)
+behavior sub_huffencoder(in int in_block[64], i_sender out_port)
 {
 /* -- Local data */
 
@@ -603,3 +603,12 @@ void main(void)
   blockNr++;
 }
 };
+
+behavior huffencoder(in int in_block[64], i_sender out_port)
+{
+  sub_huffencoder H(in_block[64], out_port);
+
+  void main(void) {
+    H.main();
+  }
+}

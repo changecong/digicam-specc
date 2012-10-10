@@ -6,7 +6,7 @@
  * Description:
  *************************************************/
 
-behavior quantize(in int in_block[64], out int out_block[64])
+behavior sub_quantize(in int in_block[64], out int out_block[64])
 {
 
   int LuminanceQuantization[] = {
@@ -40,5 +40,14 @@ behavior quantize(in int in_block[64], out int out_block[64])
 		
       out_block[i] = o;
     }
+  }
+};
+
+behavior quantize(in int in_block[64], out int out_block[64])
+{
+  sub_quantize Q(in_block[64], out_block[64]);
+
+  void main(void) {
+    Q.main();
   }
 };

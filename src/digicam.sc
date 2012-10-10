@@ -25,10 +25,12 @@ behavior Main {
   FileWrite F(Q);	// monitor
  
   int main(void) {
-    // runs in sequential
-    R.main();
-    J.main();
-    F.main();   
+    // runs in pipeline
+    pipe {
+      R.main();
+      J.main();
+      F.main();   
+    }
 
     return 0;
   }
