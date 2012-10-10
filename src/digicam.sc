@@ -6,17 +6,19 @@
  * Description:
  *************************************************/
 #include "digicam.sh"
+//#define SIZE 3000
 
-import "stimulus";
 import "jpegencoder";
 import "monitor";
+import "stimulus";
 
 
 behavior Main {
 
   unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];
+  const unsigned long Size = SIZE;
   c_handshake HS;	// handshake interface
-  c_queue Q;	// queue interface
+  c_queue Q((Size));	// queue interface
 
   ReadBmp R(ScanBuffer, HS);	// stimulus
   JpegEncoder J(ScanBuffer, HS, Q);  // Jpegencoder

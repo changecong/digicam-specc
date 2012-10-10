@@ -577,7 +577,7 @@ void EncodeAC()
 void main(void) 
 {
   static int blockNr=0;
-
+  int numl[1] = {0};
   input = in_block;
 
   if(blockNr==0) {
@@ -598,7 +598,9 @@ void main(void)
     WriteMarker(0xd9);
   }
   
+  numl[0] = ofp_ptr;
   //FileWrite(ofp, ofp_ptr);
+  out_port.send(numl, 4);
   out_port.send(ofp, ofp_ptr);  
   
   ofp_ptr = 0;

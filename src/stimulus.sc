@@ -7,17 +7,19 @@
  *************************************************/
 
 #include "digicam.sh"	// includes macros
-#include "file.h"	// includes standard libroary
+#include "file.sh"	// includes standard libroary
 
 import "c_handshake";
 /*
  * The stimulus has one buffer and one handshake channel
  */
-behavior ReadBmp(out unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8], i_send out_port)
+behavior ReadBmp(out unsigned char out_ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8], i_send out_port)
 {
 typedef short WORD;
 typedef long DWORD;
 typedef char BYTE;
+
+unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];
 
 typedef struct tagBITMAPFILEHEADER {
   WORD bfType;
@@ -249,9 +251,7 @@ void main(void)
                  + (BmpInfoHeader.biHeight - r - 1) * BmpScanWidth, 0);
         
     // Read pixel row, throw error on unexpected end of file, and bitwidth
-    if (ferror(ifp) || 
-        (fread(ScanBuffer[r], 1, BmpInfoHeader.biWidth, ifp) 
-         != BmpInfoHeader.biWidth)){
+    if (ferror(ifp) || (fread(ScanBuffer[r], 1, BmpInfoHeader.biWidth, ifp) != BmpInfoHeader.biWidth)){
       fprintf(stderr, "Error reading data from file %s\n", "ccd.bmp");
       fclose (ifp);
       exit(1);
@@ -262,9 +262,12 @@ void main(void)
       ScanBuffer[r][i] = ScanBuffer[r][BmpInfoHeader.biWidth-1];
     }
   }
-    
+  
+  
   fclose (ifp);
 
+  out_ScanBuffer = ScanBuffer;
+  out_port.send();
   // return the number of 8x8 blocks to be processed
   // no longer needed due to static dimensions
   return;

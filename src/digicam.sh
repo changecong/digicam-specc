@@ -19,3 +19,5 @@
 #define IMG_BLOCKS (IMG_WIDTH_MDU * IMG_HEIGHT_MDU)
 
 #endif
+
+#define SIZE 3000

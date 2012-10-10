@@ -48,20 +48,20 @@ behavior chendct(in int in_block[64], out int out_block[64])
       a2 = LS((v2 + v5),  2); c1 = LS((v2 - v5),  2);
       a3 = LS((v3 + v4),  2); c0 = LS((v3 - v4),  2);
       b0 = a0 + a3; b1 = a1 + a2; b2 = a1 - a2; b3 = a0 - a3;
-      out_block[i] = MSCALE(c1d4 * (b0 + b1));
-      out_block[i + 32] = MSCALE(c1d4 * (b0 - b1));
-      out_block[i + 16] = MSCALE((c3d8 * b2) + (c1d8 * b3));
-      out_block[i + 48] = MSCALE((c3d8 * b3) - (c1d8 * b2));
+      temp_block[i] = MSCALE(c1d4 * (b0 + b1));
+      temp_block[i + 32] = MSCALE(c1d4 * (b0 - b1));
+      temp_block[i + 16] = MSCALE((c3d8 * b2) + (c1d8 * b3));
+      temp_block[i + 48] = MSCALE((c3d8 * b3) - (c1d8 * b2));
       b0 = MSCALE(c1d4 * (c2 - c1)); b1 = MSCALE(c1d4 * (c2 + c1));
       a0 = c0 + b0; a1 = c0 - b0; a2 = c3 - b1; a3 = c3 + b1;
-      out_block[i + 8] = MSCALE((c7d16 * a0) + (c1d16 * a3));
-      out_block[i + 24] = MSCALE((c3d16 * a2) - (c5d16 * a1));
-      out_block[i + 40] = MSCALE((c3d16 * a1) + (c5d16 * a2));
-      out_block[i + 56] = MSCALE((c7d16 * a3) - (c1d16 * a0));
+      temp_block[i + 8] = MSCALE((c7d16 * a0) + (c1d16 * a3));
+      temp_block[i + 24] = MSCALE((c3d16 * a2) - (c5d16 * a1));
+      temp_block[i + 40] = MSCALE((c3d16 * a1) + (c5d16 * a2));
+      temp_block[i + 56] = MSCALE((c7d16 * a3) - (c1d16 * a0));
     }
 	
     for (i = 0; i < 64; i++) {
-      temp_block[i] = out_block[i];
+      out_block[i] = temp_block[i];
     }
 
     for (i = 0; i < 8; i++)
