@@ -39,11 +39,11 @@ behavior sub_zigzag(in int in_block[64], out int out_block[64])
   }
 };
 
-behavior zigzag(in int in_block[64], out int out_block[64])
-{
+
+behavior zigzag(in int in_block[64], out int out_block[64]) {
   sub_zigzag Z(in_block, out_block);
 
   void main(void) {
-    Z.main();
+   Z.main();
   }
-}
+};

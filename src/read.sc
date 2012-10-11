@@ -31,8 +31,9 @@ behavior sub_readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_M
   }
 };
 
+
 behavior readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
-    out int out_block[64])
+  	out int out_block[64])
 {
   sub_readblock R(ScanBuffer, out_block);
 

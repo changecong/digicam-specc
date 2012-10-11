@@ -43,9 +43,10 @@ behavior sub_quantize(in int in_block[64], out int out_block[64])
   }
 };
 
+
 behavior quantize(in int in_block[64], out int out_block[64])
 {
-  sub_quantize Q(in_block[64], out_block[64]);
+  sub_quantize Q(in_block, out_block);
 
   void main(void) {
     Q.main();
