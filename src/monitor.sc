@@ -13,11 +13,12 @@
 
 import "c_queue";
 
-behavior FileWrite(i_receiver in_port)
+behavior sub_FileWrite(i_receiver in_port)
 {
-  FILE *f; 
+  FILE *f;  // = NULL;
   unsigned char bytes[2];
- 
+  int flag = 1;
+  // write number of bytes to file  
   void main(void) {
     if(!f) {
        f=fopen("test.jpg","wb");
@@ -26,7 +27,10 @@ behavior FileWrite(i_receiver in_port)
         fprintf(stderr, "Cannot open output file %s\n", "test.jpg");
     }
 
-    while(bytes[0] != EOF) {
+    while(bytes[0] != 0xd9 || flag == 1) {
+      flag = 1;
+      if (bytes[0] == 0xff)
+        flag = 0;
       // read data from queue.
       // get the length of each queue
       in_port.receive(bytes, 1);
@@ -35,12 +39,21 @@ behavior FileWrite(i_receiver in_port)
         fprintf(stderr, "Error writing output file %s\n", "test.jpg");
         fclose(f);
         exit(1);
-      }
-	
+      }	  
     }
 
-    fclose(f);
-    printf ("Encoded JPEG file written successfully!\n");
- 
+   
+      fclose(f);
+      //f = NULL;
+      printf ("Encoded JPEG file written successfully!\n");
+   }
+};
+
+behavior FileWrite(i_receiver in_port) 
+{
+  sub_FileWrite F(in_port);
+
+  void main(void) {
+    F.main();
   }
 };
