@@ -17,8 +17,10 @@ import "c_handshake";
 import "c_queue";
 
 /*
- * in_port -- handshake channel
- * out_port -- queue channel
+ * JpegEncoder -- 4 sub-behaviors run sequentially in a loop
+ * @para: ScanBuffer -- a port to read image in
+ *        in_port -- handshake channel
+ *        out_port -- queue channel
  */
 behavior JpegEncoder(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
   i_receive in_port, i_sender out_port)

@@ -12,10 +12,13 @@ import "jpegencoder";
 import "monitor";
 import "stimulus";
 
-
+/*
+ * Main behavior -- in which 3 sub-behavior run parallelly
+ */
 behavior Main {
 
   unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];
+  // the length of queue must be initialized
   const unsigned long Size = SIZE;
   c_handshake HS;	// handshake interface
   c_queue Q((Size));	// queue interface
@@ -33,4 +36,4 @@ behavior Main {
     }
     return 0;
   }
-};
+};  // Main end

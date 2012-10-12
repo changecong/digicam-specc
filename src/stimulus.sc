@@ -11,9 +11,12 @@
 
 import "c_handshake";
 /*
- * The stimulus has one buffer and one handshake channel
+ * sub_ReadBmp -- The stimulus split the image header with its data part
+ *                send image data in to a buffer throught a port
+ * @para: out_ScanBuffer -- used to send the image data
+ *        out_port -- used to send the event
  */
-behavior ReadBmp(out unsigned char out_ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8], i_send out_port)
+behavior sub_ReadBmp(out unsigned char out_ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8], i_send out_port)
 {
 typedef short WORD;
 typedef long DWORD;
@@ -273,4 +276,17 @@ void main(void)
   return;
 }
 
+};
+
+/*
+ * ReadBmp -- a 'clean' behavior
+ * @para: ScanBuffer, out_port
+ */
+behavior ReadBmp(out unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8], i_send out_port)
+{
+  sub_ReadBmp R(ScanBuffer, out_port);
+
+  void main(void) {
+    R.main();
+  }
 };
