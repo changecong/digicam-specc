@@ -1,10 +1,10 @@
-// Digital Camera Example
-//
-// Lab 2
-// Group Members: 
-//   Zhicong Chen
-//   Weifu Li
-//   Charu Kalra
+/**************************************************
+ * Author: Zhicong Chen -- 10/09/2012 19:46:18	  	
+ * Email: chen.zhico@husky.neu.edu
+ * Filename: dct.sc
+ * Last modified: 10/09/2012 19:46:18
+ * Description:
+ *************************************************/
 
 /*
  * sub_zigzag -- read bytes in a 'z' order
