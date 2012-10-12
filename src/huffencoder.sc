@@ -599,7 +599,7 @@ void main(void)
   }
   
   numl[0] = ofp_ptr;
-  FileWrite(ofp, ofp_ptr);
+//  FileWrite(ofp, ofp_ptr);
   out_port.send(numl, 4);
   out_port.send(ofp, ofp_ptr);  
   
