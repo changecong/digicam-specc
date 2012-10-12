@@ -8,8 +8,14 @@
 
 #include "digicam.sh"
 
-import "c_queue";
+import "c_queue"; // standard channel lib
 
+/*
+ * sub_huffencoder -- a behavior contains all the methods to achieve
+ *                    huff encoding, the input depense on zigzag process 
+ * @para: in_block -- read block in
+ *        out_port -- a typeless queue used to send the data block out
+ */
 behavior sub_huffencoder(in int in_block[64], i_sender out_port)
 {
 /* -- Local data */
@@ -577,7 +583,6 @@ void EncodeAC()
 void main(void) 
 {
   static int blockNr=0;
-  //int numl[1] = {0};
   input = in_block;
 
   if(blockNr==0) {
@@ -598,9 +603,8 @@ void main(void)
     WriteMarker(0xd9);
   }
   
-  //numl[0] = ofp_ptr;
-  //FileWrite(ofp, ofp_ptr);
-  //out_port.send(numl, 4);
+  // write the block into the queue, then the receiver in monitor
+  // will run in a loop to read from the queue one byte a time.
   out_port.send(ofp, ofp_ptr);  
   
   ofp_ptr = 0;
@@ -608,7 +612,10 @@ void main(void)
 }
 };
 
-
+/*
+ * huffencoder -- a 'clean' behavior
+ * @para: in_block, out_port
+ */
 behavior huffencoder(in int in_block[64], i_sender out_port) {
   sub_huffencoder H(in_block, out_port);
 

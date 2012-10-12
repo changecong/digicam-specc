@@ -1,11 +1,16 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 20:09:21
- * Email: chen.zhico@husky.neu.edu
- * Filename: quantize.sc
- * Last modified: 10/09/2012 20:09:21
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
+/*
+ * sub_quantize -- contains the full functionality
+ * @para: in_block -- read block in
+ *        out_block -- write block out
+ */
 behavior sub_quantize(in int in_block[64], out int out_block[64])
 {
 
@@ -43,7 +48,9 @@ behavior sub_quantize(in int in_block[64], out int out_block[64])
   }
 };
 
-
+/*
+ * quantize -- a 'clean' behavior
+ */
 behavior quantize(in int in_block[64], out int out_block[64])
 {
   sub_quantize Q(in_block, out_block);

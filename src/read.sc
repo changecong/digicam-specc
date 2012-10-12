@@ -1,13 +1,18 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:40:46
- * Email: chen.zhico@husky.neu.edu
- * Filename: read.sc
- * Last modified: 10/09/2012 19:40:46
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
 #include "digicam.sh"
 
+/*
+ * sub_readblock -- split image into several 8x8 blocks, and send them out
+ * @para: ScanBuffer -- read the image in
+ *        out_block -- send each 8x8 block out
+ */
 behavior sub_readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
   	out int out_block[64])
 {
@@ -21,6 +26,7 @@ behavior sub_readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_M
     x = (blockNr % MDU(IMG_WIDTH)) << 3;
     y = (blockNr / MDU(IMG_WIDTH)) << 3;
 	
+    // send a 8x8 square out through out_block
     for (i=0; i<8; i++) {
       for (j=0; j<8; j++) {
         out_block[i*8+j] = ScanBuffer[y+i][x+j];
@@ -31,7 +37,10 @@ behavior sub_readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_M
   }
 };
 
-
+/*
+ * readblock -- a 'clean' behavior
+ * @para: ScanBuffer, out_block
+ */
 behavior readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
   	out int out_block[64])
 {

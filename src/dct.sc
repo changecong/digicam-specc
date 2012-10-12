@@ -1,13 +1,18 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:46:18
- * Email: chen.zhico@husky.neu.edu
- * Filename: dct.sc
- * Last modified: 10/09/2012 19:46:18
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
 #include "dct.sh"
 
+/*
+ * preshift -- sub-behavior, used to shift the value, make the
+ *             values around 0.
+ * @para: in_block, out_block
+ */
 behavior preshift(in int in_block[64], out int out_block[64])
 {
   int i, tval;
@@ -20,7 +25,10 @@ behavior preshift(in int in_block[64], out int out_block[64])
   }
 };
 
-/* Chen forward DCT algorithm */
+/* 
+ * chendct -- Chen forward DCT algorithm 
+ * @para: in_block, out_block
+ */
 behavior chendct(in int in_block[64], out int out_block[64]) 
 {
   int i, aptr;
@@ -60,6 +68,7 @@ behavior chendct(in int in_block[64], out int out_block[64])
       temp_block[i + 56] = MSCALE((c7d16 * a3) - (c1d16 * a0));
     }
 	
+    // temp_block plays the role of out_block before here
     for (i = 0; i < 64; i++) {
       out_block[i] = temp_block[i];
     }
@@ -93,8 +102,12 @@ behavior chendct(in int in_block[64], out int out_block[64])
       out_block[aptr + 7] = MSCALE((c7d16 * a3) - (c1d16 * a0));
     }
   }
-};
+};  // chendct end
 
+/*
+ * bound -- 
+ * @para: in_block, out_block
+ */
 behavior bound(in int in_block[64], out int out_block[64])
 {
   int i, tval;
@@ -116,7 +129,10 @@ behavior bound(in int in_block[64], out int out_block[64])
   }
 };
 
-/* -- DCT -- */
+/*
+ * dct -- a 'clean' behavior, sub-behaviors run sequentially
+ * @para: in_block, out_block
+ */
 behavior dct(in int in_block[64], out int out_block[64]) 
 {
   int preshiftout[64];

@@ -1,21 +1,24 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:32:27
- * Email: chen.zhico@husky.neu.edu
- * Filename: digicam.sc
- * Last modified: 10/09/2012 19:32:27
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
+
 #include "digicam.sh"
-//#define SIZE 3000
 
 import "jpegencoder";
 import "monitor";
 import "stimulus";
 
-
+/*
+ * Main behavior -- in which 3 sub-behavior run parallelly
+ */
 behavior Main {
 
   unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];
+  // the length of queue must be initialized
   const unsigned long Size = SIZE;
   c_handshake HS;	// handshake interface
   c_queue Q((Size));	// queue interface
@@ -33,4 +36,4 @@ behavior Main {
     }
     return 0;
   }
-};
+};  // Main end
