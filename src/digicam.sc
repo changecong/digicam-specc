@@ -1,12 +1,12 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:32:27
- * Email: chen.zhico@husky.neu.edu
- * Filename: digicam.sc
- * Last modified: 10/09/2012 19:32:27
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
+
 #include "digicam.sh"
-//#define SIZE 3000
 
 import "jpegencoder";
 import "monitor";
@@ -26,10 +26,11 @@ behavior Main {
  
   int main(void) {
     // runs in sequential
-    R.main();
-    J.main();
-    F.main();   
-
+    par {
+      R.main();
+      J.main();
+      F.main();   
+    }
     return 0;
   }
 };

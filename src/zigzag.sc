@@ -1,12 +1,12 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 20:19:46
- * Email: chen.zhico@husky.neu.edu
- * Filename: zigzag.sc
- * Last modified: 10/09/2012 20:19:46
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
-behavior zigzag(in int in_block[64], out int out_block[64])
+behavior sub_zigzag(in int in_block[64], out int out_block[64])
 {
   int ZigzagIndex[] =
     {0,  1,  5,  6, 14, 15, 27, 28,
@@ -36,5 +36,14 @@ behavior zigzag(in int in_block[64], out int out_block[64])
 		z = ZigzagIndex[i];
 		out_block[z] = in_block[i];
     }
+  }
+};
+
+
+behavior zigzag(in int in_block[64], out int out_block[64]) {
+  sub_zigzag Z(in_block, out_block);
+
+  void main(void) {
+   Z.main();
   }
 };

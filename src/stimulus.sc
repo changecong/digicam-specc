@@ -1,10 +1,10 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 18:53:13
- * Email: chen.zhico@husky.neu.edu
- * Filename: stimulus.sc
- * Last modified: 10/09/2012 18:53:13
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
 #include "digicam.sh"	// includes macros
 #include "file.sh"	// includes standard libroary

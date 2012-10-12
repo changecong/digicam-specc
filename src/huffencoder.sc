@@ -1,16 +1,16 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 20:23:04
- * Email: chen.zhico@husky.neu.edu
- * Filename: huffencoder.sc
- * Last modified: 10/09/2012 20:23:04
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
 #include "digicam.sh"
 
 import "c_queue";
 
-behavior huffencoder(in int in_block[64], i_sender out_port)
+behavior sub_huffencoder(in int in_block[64], i_sender out_port)
 {
 /* -- Local data */
 
@@ -599,11 +599,20 @@ void main(void)
   }
   
   numl[0] = ofp_ptr;
-  //FileWrite(ofp, ofp_ptr);
+  FileWrite(ofp, ofp_ptr);
   out_port.send(numl, 4);
   out_port.send(ofp, ofp_ptr);  
   
   ofp_ptr = 0;
   blockNr++;
 }
+};
+
+
+behavior huffencoder(in int in_block[64], i_sender out_port) {
+  sub_huffencoder H(in_block, out_port);
+
+  void main(void) {
+    H.main();
+  }
 };

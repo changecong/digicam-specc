@@ -1,10 +1,10 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 20:13:44
- * Email: chen.zhico@husky.neu.edu
- * Filename: huff.sc
- * Last modified: 10/09/2012 20:13:44
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
 import "zigzag";
 import "huffencoder";

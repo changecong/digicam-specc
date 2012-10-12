@@ -1,14 +1,14 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:40:46
- * Email: chen.zhico@husky.neu.edu
- * Filename: read.sc
- * Last modified: 10/09/2012 19:40:46
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
 #include "digicam.sh"
 
-behavior readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
+behavior sub_readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
   	out int out_block[64])
 {
   int i, j;
@@ -28,5 +28,16 @@ behavior readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8
     } 
     
     blockNr++;
+  }
+};
+
+
+behavior readblock(in unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
+  	out int out_block[64])
+{
+  sub_readblock R(ScanBuffer, out_block);
+
+  void main(void) {
+    R.main();
   }
 };

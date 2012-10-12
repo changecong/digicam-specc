@@ -1,10 +1,10 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:04:32
- * Email: chen.zhico@husky.neu.edu
- * Filename: jpegencoder.sc
- * Last modified: 10/09/2012 19:04:32
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
 #include "digicam.sh"	// includes macros
 

@@ -1,12 +1,12 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 20:09:21
- * Email: chen.zhico@husky.neu.edu
- * Filename: quantize.sc
- * Last modified: 10/09/2012 20:09:21
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   Zhicong Chen
+//   Weifu Li
+//   Charu Kalra
 
-behavior quantize(in int in_block[64], out int out_block[64])
+behavior sub_quantize(in int in_block[64], out int out_block[64])
 {
 
   int LuminanceQuantization[] = {
@@ -40,5 +40,15 @@ behavior quantize(in int in_block[64], out int out_block[64])
 		
       out_block[i] = o;
     }
+  }
+};
+
+
+behavior quantize(in int in_block[64], out int out_block[64])
+{
+  sub_quantize Q(in_block, out_block);
+
+  void main(void) {
+    Q.main();
   }
 };
