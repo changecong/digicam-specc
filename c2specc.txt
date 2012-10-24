@@ -1,0 +1,24 @@
+C code conversion to SpecC
+
+– Functions become behaviors or channels
+– Functional hierarchy becomes behavioral hierarchy
+
+  • Clean behavioral hierarchy required
+  • if-then-else structure becomes FSM
+  • while/for/do loops become FSM
+
+– Explicitly specify potential parallelism
+
+  • Data (array) partitioning
+
+– Explicitly specify communication
+
+  • Avoid global variables
+  • Use local variables and ports (signals, wires)
+  • Use standard channels
+
+– Data types
+
+  • Avoid pointers, use arrays instead
+  • Use explicit SpecC data types if suitable
+  • Floating-point to fixed-point conversion
