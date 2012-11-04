@@ -5,7 +5,7 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include <sim.sh>
 #include "digicam.sh"
 
@@ -227,8 +227,8 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
     // the first file name
     sprintf(fname, "ccd_%d.bmp", fnum);
 
-    while (access(fname, R_OK)) {
-    // while (1) {
+    //while (access(fname, R_OK)) {
+    while (1) {
       // Open file
       ifp = fopen(fname, "rb");
       if (!ifp) {
