@@ -1,66 +1,72 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:25:36
- * Email: chen.zhico@husky.neu.edu
- * Filename: monitor.sc
- * Last modified: 10/09/2012 19:25:36
- * Description:
- *************************************************/
+//
+// Monitor
+//   -- read bytes from queue and write into file
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sim.sh>
+#include <unistd.h>
 #include "digicam.sh"
-#include "file.sh"
 
-import "c_queue";
+import "i_receiver";
 
-/*
- * sub_FileWrite -- read bytes from queue and then write them into
- *                  a file.
- * @para: in_port -- read bytes
- */
-behavior sub_FileWrite(i_receiver in_port)
-{
-  FILE *f;
-  unsigned char bytes[1];  // receive 1 bytes each time.
-  int flag = 1;  // used to show if the 0xff is the previous one
-    
+
+behavior Monitor(i_receiver bytes) {
+  // initialize file pointer to NULL, changed from 
+  // NULL to 0 as init value to avoid compiler limitation
+  FILE *f = 0;
+  unsigned char buf[2];
+  unsigned int nBytes = 0;
+  char fname[20], bmp[20];
+  unsigned int fnum = 0;
+
   void main(void) {
-    // open the file
-    if(!f) {
-       f=fopen("test.jpg","wb");
-    }
-    if(!f) {
-        fprintf(stderr, "Cannot open output file %s\n", "test.jpg");
-    }
 
-    // read one byte a time
-    while(bytes[0] != 0xd9 || flag == 1) {
-      flag = 1;
-      if (bytes[0] == 0xff)
-      flag = 0;
+    buf[0] = 0;
+    buf[1] = 1;
+ 
+    sprintf(bmp, "ccd_%d.bmp", fnum);
+
+    while(access(bmp, R_OK)) {  // check corresponding bmp file
+      // name
+      sprintf(fname, "test_%d.jpg", fnum);  
+
+      if(!f) {
+        f=fopen(fname,"wb");
+      }
+      if(!f) {
+        fprintf(stderr, "Cannot open output file %s\n", fname);
+      }
+    
+  
+      do{
+        nBytes++;
+
+        // receive a single byte (note write it in alternating 
+        // location to detect EOF later
+        bytes.receive(&buf[nBytes & 1], sizeof(char));
+
+        // write single byte into file 
+        if (fwrite(&buf[nBytes & 1], sizeof(char),1,f) != 1) {
+          fprintf(stderr, "Error writing output file %s\n", fname);
+          fclose(f);
+          exit(1);
+        }
       
-      // one byte
-      in_port.receive(bytes, 1);
-
-      // write each byte into the file as well as checking the correctness
-      if (fwrite(bytes, sizeof(char), 1, f) != 1) {
-        fprintf(stderr, "Error writing output file %s\n", "test.jpg");
-        fclose(f);
-        exit(1);
-      }	  
-    }
+      
+        // repeat until seing the EOF marker in last two byts 
+      }while ( !((buf[nBytes     & 1] == 0xd9 ) &&
+                 (buf[(nBytes+1) & 1] == 0xff ))); 
 
       fclose(f);
+      f = 0;
+        
       printf ("Encoded JPEG file written successfully!\n");
-   }
-};
+    
+      fnum++;
+      sprintf(bmp, "ccd_%d.bmp", fnum);
+    }
 
-/*
- * FileWrite -- a 'clean' behavior
- */
-behavior FileWrite(i_receiver in_port)
-{
-  sub_FileWrite F(in_port);
-
-  void main(void) {
-   F.main();
-  }
+    waitfor(200 MILLI_SEC);
+  }  
 };

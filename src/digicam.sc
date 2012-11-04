@@ -1,39 +1,74 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:46:18
- * Email: chen.zhico@husky.neu.edu
- * Filename: dct.sc
- * Last modified: 10/09/2012 19:46:18
- * Description:
- *************************************************/
+// Digital Camera Example
+//
+// Lab 2
+// Group Members: 
+//   <login name>, <student id>
+//
+//
 
+
+#include <stdio.h>
+#include <sim.sh>
 #include "digicam.sh"
 
-import "jpegencoder";
-import "monitor";
 import "stimulus";
+import "read";
+import "dct";
+import "quantize";
+import "huff";
+import "monitor";
 
-/*
- * Main behavior -- in which 3 sub-behavior run parallelly
- */
-behavior Main {
+import "c_queue";
+import "c_handshake";
 
-  unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];
-  // the length of queue must be initialized
-  const unsigned long Size = SIZE;
-  c_handshake HS;	// handshake interface
-  c_queue Q((Size));	// queue interface
 
-  ReadBmp R(ScanBuffer, HS);	// stimulus
-  JpegEncoder J(ScanBuffer, HS, Q);  // Jpegencoder
-  FileWrite F(Q);	// monitor
- 
-  int main(void) {
-    // runs in sequential
-    par {
-      R.main();
-      J.main();
-      F.main();   
+behavior JpegEncoder(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8], 
+                i_receive start, i_sender bytes) {
+
+  int read2dct[64];
+  int dct2quant[64];
+  int quant2huff[64];
+
+  Read read(ScanBuffer, read2dct);
+  DCT dct(read2dct, dct2quant);
+  Quantize quantize(dct2quant, quant2huff);
+  Huff  huff(quant2huff, bytes);
+  
+  void main(void) {
+    int iter;
+  
+    while(1) {
+      start.receive();
+      for (iter = 0; iter < IMG_BLOCKS; iter++) {
+        read;
+        dct;
+        quantize;
+        huff;
+      }
+      waitfor(200 MILLI_SEC);
     }
+  }
+};
+
+behavior Main {  
+  unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];
+  c_handshake start;
+  const unsigned long qSize = 512;
+  c_queue bytes(qSize);
+
+  Stimulus stimulus(ScanBuffer, start);
+  JpegEncoder jpegEncoder(ScanBuffer, start, bytes);
+  Monitor monitor(bytes);
+
+  int main(void) {
+
+    par{
+      stimulus;
+      jpegEncoder;
+      monitor;
+
+    };
+
     return 0;
   }
-};  // Main end
+};

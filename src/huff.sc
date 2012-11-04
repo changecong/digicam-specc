@@ -1,32 +1,22 @@
-/**************************************************
- * Author: Zhicong Chen -- 10/09/2012 19:46:18
- * Email: chen.zhico@husky.neu.edu
- * Filename: dct.sc
- * Last modified: 10/09/2012 19:46:18
- * Description:
- *************************************************/
+//
+// Huffman 
+//
+//
 
+import "huffencode";
 import "zigzag";
-import "huffencoder";
+import "i_sender";
 
-import "c_queue";
 
-/*
- * huff -- integrate the zigzag and huffencoder process
- *         they run parallelly as sub-behaviors
- * @para: in_block -- read block in
- *        out_port -- used to write the processed data into
- *                    queue
- */
-behavior huff(in int in_block[64], i_sender out_port)
-{
-  int zigzagout[64];
+behavior Huff(in int in_block[64], i_sender file){
+  int zig2huf[64];
 
-  zigzag Z(in_block, zigzagout);
-  huffencoder H(zigzagout, out_port);
+  ZigZag zigzag(in_block, zig2huf);
+  Huffencode huffencode(zig2huf, file); 
+
 
   void main(void) {
-    Z.main();
-    H.main();
+    zigzag;
+    huffencode;
   }
 };

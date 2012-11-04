@@ -16,10 +16,12 @@ SOURCES := $(wildcard *.sc)
 #   -- auto determined
 HEADERS := $(wildcard *.sh)
 
+SRC             = .
+
 
 SCC		= scc
 SCCDEF		= 
-SCCOPT		= -ww -vv -d -g -G -xlx
+SCCOPT		= -ww -vv -d -g -G -xlx -I$(SPECC)/inc -P$(SPECC)/imp
 SCCINC		= -I$(SRC)
 SCCIMP		= -P$(SRC)
 SCCLIB		=
@@ -43,8 +45,8 @@ $(DESIGN): $(HEADERS) $(SOURCES)
 
 # compare output against golden reference
 test: $(DESIGN)
-	./$(DESIGN) 
-	$(CMP) $(TESTFILE) $(GOLDFILE)
+	./test.sh
+	
 
 clean:
 	-$(RM) *~ *.o
