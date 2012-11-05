@@ -7,7 +7,7 @@
 
 
 #include "digicam.sh"
-
+#include <stdio.h>
 
 behavior Quantize(in int in_block[64], out int out_block[64]){
 

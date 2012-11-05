@@ -227,12 +227,11 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
     // the first file name
     sprintf(fname, "ccd_%d.bmp", fnum);
 
-    //while (access(fname, R_OK)) {
     while (1) {
       // Open file
       ifp = fopen(fname, "rb");
       if (!ifp) {
-        fprintf(stderr, "Cannot open input file %s\n", fname);
+      //  fprintf(stderr, "Cannot open input file %s\n", fname);
         exit(1);
       }
 
@@ -256,7 +255,7 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
         if (ferror(ifp) || 
             (fread(ScanBuffer[r], 1, BmpInfoHeader.biWidth, ifp) 
              !=  (unsigned int) BmpInfoHeader.biWidth)){
-          fprintf(stderr, "Error reading data from file %s\n", "ccd.bmp");
+          fprintf(stderr, "Error reading data from file %s\n", fname);
           fclose (ifp);
           exit(1);
         }
@@ -267,12 +266,13 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
           ScanBuffer[r][i] = ScanBuffer[r][BmpInfoHeader.biWidth-1];
         }
       }
-    
+     
       fclose (ifp);
-
+      
       start.send();
       fnum++;
       sprintf(fname, "ccd_%d.bmp", fnum);
+
       // return the number of 8x8 blocks to be processed
       // no longer needed due to static dimensions
       // simulated time

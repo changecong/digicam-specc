@@ -7,7 +7,6 @@
 //
 
 
-#include <stdio.h>
 #include <sim.sh>
 #include "digicam.sh"
 
@@ -45,7 +44,6 @@ behavior JpegEncoder(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8]
         quantize;
         huff;
       }
-      waitfor(200 MILLI_SEC);
     }
   }
 };
