@@ -18,5 +18,8 @@
 // total number of blocks in image
 #define IMG_BLOCKS (IMG_WIDTH_MDU * IMG_HEIGHT_MDU)
 
+// print a string with a time stamp
+#define TPRINT(a) {sim_time_string buf; printf("Time =%5s: %s", time2str(buf, now()), a);};
+
 #endif
 

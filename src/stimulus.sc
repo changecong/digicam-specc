@@ -1,8 +1,14 @@
-//
-// 
-//  stimulus for digicam  (prior ReadBmp_aux.c)
-//
-//
+/********************************************************
+ * File Name: stimulus.sc
+ * Created By: Zhicong Chen -- chen.zhico@husky.neu.edu
+ * Creation Date: [2012-11-05 12:53]
+ * Last Modified: [2012-11-05 13:46]
+ * Licence: Zhicong Chen (c) 2012 | all rights reserved
+ * Description:  
+ *********************************************************/
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 //#include <unistd.h>
@@ -270,6 +276,10 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
       fclose (ifp);
       
       start.send();
+
+      // simulated time
+      TPRINT("Stimulus\n");
+      
       fnum++;
       sprintf(fname, "ccd_%d.bmp", fnum);
 

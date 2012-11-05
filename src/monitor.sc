@@ -61,8 +61,9 @@ behavior Monitor(i_receiver bytes) {
   
       fclose(f);
       f = 0;
-        
-      printf ("Encoded JPEG file written successfully!\n");
+      // simulated time
+      TPRINT("monitor\n");      
+      printf ("Encoded %s file written successfully!\n", fname);
     
       fnum++;
       sprintf(bmp, "ccd_%d.bmp", fnum);
