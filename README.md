@@ -5,7 +5,8 @@ use SpecC to implement a Jpeg Encoder
 
 ### Executation
 
->> cd src/\
+>> cd src/
+
 >> make test
 
 ### Intro
