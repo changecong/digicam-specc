@@ -53,3 +53,4 @@ clean:
 	-$(RM) *.si
 	-$(RM) *.sir
 	-$(RM) $(DESIGN)
+	-$(RM) test_*
