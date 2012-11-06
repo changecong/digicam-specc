@@ -1,0 +1,15 @@
+Time =    0: monitor
+Encoded test_0.jpg file written successfully!
+Time =200000000000: Stimulus
+Time =200000000000: monitor
+Encoded test_1.jpg file written successfully!
+Time =400000000000: Stimulus
+Time =400000000000: monitor
+Encoded test_2.jpg file written successfully!
+Time =600000000000: Stimulus
+Time =600000000000: monitor
+Encoded test_3.jpg file written successfully!
+Time =800000000000: Stimulus
+Time =800000000000: monitor
+Encoded test_4.jpg file written successfully!
+Time =1000000000000: Stimulus
