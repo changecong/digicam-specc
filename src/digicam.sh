@@ -8,6 +8,9 @@
 #define IMG_WIDTH   116
 #define IMG_HEIGHT   96
 
+// image block size
+#define IMG_BLOCK_SIZE 64
+
 // convert pixel to MDU 
 #define MDU(pixel) ((pixel+7)>>3)
 
@@ -19,7 +22,7 @@
 #define IMG_BLOCKS (IMG_WIDTH_MDU * IMG_HEIGHT_MDU)
 
 // print a string with a time stamp
-#define TPRINT(a) {sim_time_string buf; printf("Time =%5s: %s", time2str(buf, now()), a);};
+#define TPRINT(a) {sim_time_string buff; printf("Time =%5s: %s", time2str(buff, now()), a);};
 
 #endif
 

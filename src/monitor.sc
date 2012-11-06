@@ -61,14 +61,16 @@ behavior Monitor(i_receiver bytes) {
   
       fclose(f);
       f = 0;
+
       // simulated time
+//      waitfor(200 MILLI_SEC);
       TPRINT("monitor\n");      
-      printf ("Encoded %s file written successfully!\n", fname);
     
+      printf ("Encoded %s file written successfully!\n", fname);
+      
       fnum++;
       sprintf(bmp, "ccd_%d.bmp", fnum);
       
-      waitfor(200 MILLI_SEC);
     }
   }  
 };

@@ -2,7 +2,7 @@
  * File Name: stimulus.sc
  * Created By: Zhicong Chen -- chen.zhico@husky.neu.edu
  * Creation Date: [2012-11-05 12:53]
- * Last Modified: [2012-11-05 13:46]
+ * Last Modified: [2012-11-06 02:52]
  * Licence: Zhicong Chen (c) 2012 | all rights reserved
  * Description:  
  *********************************************************/
@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-//#include <unistd.h>
+
 #include <sim.sh>
 #include "digicam.sh"
 
@@ -234,11 +234,14 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
     sprintf(fname, "ccd_%d.bmp", fnum);
 
     while (1) {
+    
       // Open file
       ifp = fopen(fname, "rb");
       if (!ifp) {
-      //  fprintf(stderr, "Cannot open input file %s\n", fname);
+        fprintf(stderr, "Cannot open input file %s\n", fname);
         exit(1);
+        //break;
+        //return;
       }
 
       // Read BMP file header
@@ -276,8 +279,9 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
       fclose (ifp);
       
       start.send();
-
       // simulated time
+      waitfor(200 MILLI_SEC); 
+
       TPRINT("Stimulus\n");
       
       fnum++;
@@ -285,8 +289,6 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
 
       // return the number of 8x8 blocks to be processed
       // no longer needed due to static dimensions
-      // simulated time
-      waitfor(200 MILLI_SEC);
     }
     
     return;

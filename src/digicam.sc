@@ -1,72 +1,51 @@
-// Digital Camera Example
-//
-// Lab 2
-// Group Members: 
-//   <login name>, <student id>
-//
-//
-
+/********************************************************
+ * File Name: digicam.sc
+ * Created By: Zhicong Chen -- chen.zhico@husky.neu.edu
+ * Creation Date: [2012-11-05 14:45]
+ * Last Modified: [2012-11-06 00:19]
+ * Licence: chenzc (c) 2012 | all rights reserved
+ * Description:  
+ *********************************************************/
 
 #include <sim.sh>
 #include "digicam.sh"
 
 import "stimulus";
-import "read";
-import "dct";
-import "quantize";
-import "huff";
+import "design";
 import "monitor";
 
 import "c_queue";
 import "c_handshake";
+import "c_double_handshake";
 
 
-behavior JpegEncoder(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8], 
-                i_receive start, i_sender bytes) {
-
-  int read2dct[64];
-  int dct2quant[64];
-  int quant2huff[64];
-
-  Read read(ScanBuffer, read2dct);
-  DCT dct(read2dct, dct2quant);
-  Quantize quantize(dct2quant, quant2huff);
-  Huff  huff(quant2huff, bytes);
+behavior TestBench() {
   
+  unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];  // buffer
+  c_handshake start;  // handshake
+  c_double_handshake bytes;  // double handshake
+
+  Stimulus stimulus(ScanBuffer, start);
+  Design design(ScanBuffer, start, bytes);
+  Monitor monitor(bytes);
+
   void main(void) {
-    int iter;
-  
-    while(1) {
-      start.receive();
-      for (iter = 0; iter < IMG_BLOCKS; iter++) {
-        read;
-        dct;
-        quantize;
-        huff;
-      }
+
+    par{
+      stimulus.main();
+      design.main();
+      monitor.main();
     }
   }
 };
 
-behavior Main {  
-  unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8];
-  c_handshake start;
-  const unsigned long qSize = 512;
-  c_queue bytes(qSize);
-
-  Stimulus stimulus(ScanBuffer, start);
-  JpegEncoder jpegEncoder(ScanBuffer, start, bytes);
-  Monitor monitor(bytes);
-
+behavior Main {
+  TestBench testbench;
+  
   int main(void) {
-
-    par{
-      stimulus;
-      jpegEncoder;
-      monitor;
-
-    };
+    testbench.main();
 
     return 0;
   }
+  
 };
