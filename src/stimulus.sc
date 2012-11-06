@@ -2,7 +2,7 @@
  * File Name: stimulus.sc
  * Created By: Zhicong Chen -- chen.zhico@husky.neu.edu
  * Creation Date: [2012-11-05 12:53]
- * Last Modified: [2012-11-06 02:52]
+ * Last Modified: [2012-11-06 06:15]
  * Licence: Zhicong Chen (c) 2012 | all rights reserved
  * Description:  
  *********************************************************/
@@ -17,11 +17,14 @@
 
 import "i_send";
 
+
 behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
                   i_send start){
   typedef short WORD;
   typedef long DWORD;
   typedef char BYTE;
+
+  sim_time f_start = 0;
 
   typedef struct tagBITMAPFILEHEADER {
     WORD bfType;
@@ -232,18 +235,25 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
     char fname[20];
     // the first file name
     sprintf(fname, "ccd_%d.bmp", fnum);
+    
+    f_start = now();
 
     while (1) {
-    
+ 
+      // simulated time every 200ms
+      // waitfor(200 MILLI_SEC);
+        waitfor 200000000000llu - ((now() - f_start) % 200000000000llu);
+        f_start = now();
+      
       // Open file
       ifp = fopen(fname, "rb");
       if (!ifp) {
-        fprintf(stderr, "Cannot open input file %s\n", fname);
+        //fprintf(stderr, "Cannot open input file %s\n", fname);
         exit(1);
         //break;
         //return;
       }
-
+      
       // Read BMP file header
       ReadBmpHeader();
 
@@ -279,11 +289,9 @@ behavior Stimulus(unsigned char ScanBuffer[IMG_HEIGHT_MDU*8][IMG_WIDTH_MDU*8],
       fclose (ifp);
       
       start.send();
-      // simulated time
-      waitfor(200 MILLI_SEC); 
 
-      TPRINT("Stimulus\n");
-      
+      TPRINT("sending the start signal\n");
+
       fnum++;
       sprintf(fname, "ccd_%d.bmp", fnum);
 

@@ -1,7 +1,10 @@
 #!/bin/sh
 
 # define
-N=4
+N=${1}
+EXEFILE=${2}
+
+let "N=$N-1"
 
 ## create test images
 echo ""
@@ -15,10 +18,10 @@ done
 ## execute
 echo ""
 echo "######## EXECUTATION #########"
-./digicam > log.txt
+./$EXEFILE > log-$EXEFILE.txt
 
 ## show resutl
-cat log.txt
+cat log-$EXEFILE.txt
 
 ## compare output
 # echo "\nCOMPARE LOG"

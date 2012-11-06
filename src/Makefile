@@ -45,7 +45,7 @@ $(DESIGN): $(HEADERS) $(SOURCES)
 
 # compare output against golden reference
 test: $(DESIGN)
-	./test.sh
+	./test.sh 3 $(DESIGN)
 	
 
 clean:

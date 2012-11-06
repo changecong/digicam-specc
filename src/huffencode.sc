@@ -5,6 +5,8 @@
 //
 
 #include <stdio.h>
+#include <sim.sh>
+
 #include "digicam.sh"
 import "i_sender";
 
@@ -548,7 +550,7 @@ behavior Huffencode(in int in_block[64], i_sender file ){
   /* -- Huffman Encoding -- */
   void main(void) {
 
- 
+    // waitfor (1 MILLI_SEC); 
     input = in_block;
 
     if( (blockNr % IMG_BLOCKS) == 0){
@@ -574,7 +576,6 @@ behavior Huffencode(in int in_block[64], i_sender file ){
     file.send(ofp, ofp_ptr);     
     // reset the byte counter (fill level of local buffer
     ofp_ptr = 0;
-
     // next block 
     blockNr++;
   }

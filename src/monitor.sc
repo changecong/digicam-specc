@@ -11,7 +11,6 @@
 
 import "i_receiver";
 
-
 behavior Monitor(i_receiver bytes) {
   // initialize file pointer to NULL, changed from 
   // NULL to 0 as init value to avoid compiler limitation
@@ -20,9 +19,12 @@ behavior Monitor(i_receiver bytes) {
   FILE *f = 0;
   unsigned char buf[2];
   unsigned int  nBytes = 0;
+  sim_time f_start = 0;
+  int tCount = 1;
 
   void main(void) {
 
+    f_start = 0;
     sprintf(bmp, "ccd_%d.bmp", fnum);
 
     while(fopen(bmp, "r")) {  // check corresponding bmp file
@@ -53,20 +55,18 @@ behavior Monitor(i_receiver bytes) {
           fclose(f);
           exit(1);
         }
-      
-      
+    
       // repeat until seing the EOF marker in last two byts 
       }while ( !((buf[nBytes     & 1] == 0xd9 ) &&
                (buf[(nBytes+1) & 1] == 0xff ))); 
-  
-      fclose(f);
-      f = 0;
 
-      // simulated time
-//      waitfor(200 MILLI_SEC);
-      TPRINT("monitor\n");      
-    
-      printf ("Encoded %s file written successfully!\n", fname);
+      f_start = ( now() / 200000000000llu * 200000000000llu);
+
+      printf("encoding delay = %3.2f ms\n", (double)(now() - f_start) / (double)1000000000.0);
+      fclose(f);
+      f = 0;   
+
+      printf ("Encoded %s file written successfully!\n\n", fname);
       
       fnum++;
       sprintf(bmp, "ccd_%d.bmp", fnum);
